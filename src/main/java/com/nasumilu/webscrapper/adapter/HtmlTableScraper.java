@@ -25,16 +25,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * HtmlElementScraper responsible for scraping and sending the content of a well-formed html table to stdout.
+ * HtmlElementScraper responsible for scraping the content of a well-formed html table.
  *
  * <p>A well formed HTML table <strong>SHALL</strong> have an HTMLTHeadElement and HTMLTBodyElement and
  * <strong>MUST</strong> not use any table row or column spanning. Basically, all rows in the HTMLTHeadElement and
  * HTMLTBodyElement have the same shape.</p>
- *
- * <p>Example</p>
- * <pre><code>
- *  java –jar webscrapper.jar --url  https://apps.sfcollege.edu/directory/?all --selector //table
- * </code></pre>
  */
 public class HtmlTableScraper extends AbstractHtmlElementScraper {
 
@@ -45,55 +40,35 @@ public class HtmlTableScraper extends AbstractHtmlElementScraper {
         super("table");
     }
 
-    /**
-     * Used to scrap the //thead/tr/th contents.
-     * @param table the table to scrap it thead content
-     * @param printer printer for sending the content to stdout
-     */
-    private static void getHeader(Element table, CSVPrinter printer) {
-        Optional.ofNullable(table.getElementsByTag("thead").first())
-                .ifPresentOrElse(
-                        thead -> {
+    @Override
+    public void scrap(Element element, CSVPrinter printer) {
+
+        Optional.ofNullable(element.getElementsByTag("thead").first()).ifPresent(
+                thead -> {
+                    try {
+                        // single row
+                        printer.printRecord(thead.select("tr th").stream().map(Element::text)
+                                .collect(Collectors.toList()));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+
+        Optional.ofNullable(element.getElementsByTag("tbody").first()).ifPresent(
+                tbody -> tbody.select("tr").forEach(
+                        tr -> {
                             try {
-                                printer.printRecord(thead.select("tr th").stream().map(Element::text).collect(Collectors.toList()));
+                                printer.printRecord(tr.select("td")
+                                        .stream()
+                                        .map(Element::text)
+                                        .collect(Collectors.toList())
+                                );
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
-                        },
-                        () -> {
-                            throw InvalidElementException.createElementByTagNameNotFound("thead");
                         }
-                );
-    }
-
-    /**
-     * Used to scrap the //tbody/tr/td content by rows.
-     * @param table the table to scrap its tbody content
-     * @param printer printer for sending the content to stdout
-     */
-    private static void getData(Element table, CSVPrinter printer) {
-        Optional.ofNullable(table.getElementsByTag("tbody").first())
-                .ifPresentOrElse(
-                        tbody -> tbody.select("tr")
-                                .forEach(tr -> {
-                                    try {
-                                        printer.printRecord(tr.select("td").stream().map(Element::text).collect(Collectors.toList()));
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                }),
-                        () -> {
-                            throw InvalidElementException.createElementByTagNameNotFound("tbody");
-                        }
-                );
-    }
-
-    @Override
-    public void scrap(Element element) throws IOException {
-        try (final var printer = new CSVPrinter(System.out, CSVFormat.DEFAULT)) {
-            getHeader(element, printer);
-            getData(element, printer);
-            printer.close(true);
-        }
+                )
+        );
     }
 }

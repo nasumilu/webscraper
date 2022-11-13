@@ -19,6 +19,8 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.jsoup.Jsoup;
 import java.io.IOException;
 import java.util.ServiceLoader;
@@ -74,14 +76,16 @@ public class Launcher {
     private static void scrap(String uri, String selector) throws IOException {
         var document = Jsoup.connect(uri).get();
         var element = document.selectXpath(selector).first();
+        var printer = new CSVPrinter(System.out, CSVFormat.DEFAULT);
         if (null != element) {
             for (var scraper : SCRAPERS) {
                 if (scraper.canScrap(element)) {
-                    scraper.scrap(element);
+                    scraper.scrap(element, printer);
                     return;
                 }
             }
         }
+        printer.close(true);
     }
 
     private static void showHelp() {

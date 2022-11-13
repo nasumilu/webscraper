@@ -15,6 +15,7 @@
  */
 
 import com.nasumilu.webscrapper.HtmlElementScraper;
+import com.nasumilu.webscrapper.adapter.HtmlDefinitionListScraper;
 import com.nasumilu.webscrapper.adapter.HtmlListItemScraper;
 import com.nasumilu.webscrapper.adapter.HtmlTableScraper;
 
@@ -27,5 +28,5 @@ module webscrapper {
     exports com.nasumilu.webscrapper.adapter;
     uses HtmlElementScraper;
 
-    provides HtmlElementScraper with HtmlTableScraper, HtmlListItemScraper;
+    provides HtmlElementScraper with HtmlTableScraper, HtmlListItemScraper, HtmlDefinitionListScraper;
 }

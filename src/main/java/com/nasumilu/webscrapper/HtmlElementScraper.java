@@ -1,5 +1,6 @@
 package com.nasumilu.webscrapper;
 
+import org.apache.commons.csv.CSVPrinter;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
@@ -23,6 +24,6 @@ public interface HtmlElementScraper {
      * @param element The element to scrap
      * @throws IOException when an I/O issue occurs
      */
-    void scrap(Element element) throws IOException;
+    void scrap(Element element, CSVPrinter printer);
 
 }

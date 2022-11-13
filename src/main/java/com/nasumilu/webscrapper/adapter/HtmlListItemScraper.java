@@ -23,23 +23,7 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 
 /**
- * HtmlElementScraper responsible for scraping and sending the content of a simple, well-formed (un)ordered list element.
- *
- * <p>When provided an HTMLOLListElement or HTMLUOListElement this scraper will extract the HTMLLIElement's text content
- * as a valid RFC4180 CSV string to stdout.</p>
- * <p>Example:</p>
- * <pre><code>
- *     java –jar webscrapper.jar --url  https://www.sfcollege.edu/about/accreditation/index  --selector "//ul[@class='perc-navbar-vertical']"
- * </code></pre>
- * <p>Output:</p>
- * <code><pre>
- *  About SF
- *  Office of the President
- *  Offices and Services
- *  History of the College
- *  Accreditation
- *  Programs of Study
- * </pre></code>
+ * HtmlElementScraper responsible for scraping the contents of a simple, well-formed (un)ordered list element.
  */
 public class HtmlListItemScraper implements HtmlElementScraper {
 
@@ -50,8 +34,7 @@ public class HtmlListItemScraper implements HtmlElementScraper {
     }
 
     @Override
-    public void scrap(Element element) throws IOException {
-        try (final var printer = new CSVPrinter(System.out, CSVFormat.DEFAULT)) {
+    public void scrap(Element element, CSVPrinter printer) {
             element.getElementsByTag("li").forEach(item -> {
                 try {
                     printer.printRecord(item.text());
@@ -59,7 +42,5 @@ public class HtmlListItemScraper implements HtmlElementScraper {
                     throw new RuntimeException(e);
                 }
             });
-            printer.close(true);
         }
-    }
 }
