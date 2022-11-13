@@ -28,13 +28,13 @@ import java.io.IOException;
 public class HtmlListItemScraper implements HtmlElementScraper {
 
     @Override
-    public boolean canScrap(Element element) {
+    public boolean canScrape(Element element) {
         var tag = element.tagName().toLowerCase();
         return tag.equals("ul") || tag.equals("ol");
     }
 
     @Override
-    public void scrap(Element element, CSVPrinter printer) {
+    public void scrape(Element element, CSVPrinter printer) {
             element.getElementsByTag("li").forEach(item -> {
                 try {
                     printer.printRecord(item.text());

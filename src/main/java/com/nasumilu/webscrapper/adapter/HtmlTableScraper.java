@@ -41,7 +41,7 @@ public class HtmlTableScraper extends AbstractHtmlElementScraper {
     }
 
     @Override
-    public void scrap(Element element, CSVPrinter printer) {
+    public void scrape(Element element, CSVPrinter printer) {
 
         Optional.ofNullable(element.getElementsByTag("thead").first()).ifPresent(
                 thead -> {

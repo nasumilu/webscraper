@@ -16,7 +16,7 @@ public interface HtmlElementScraper {
      * @param element The element to check if this {@link HtmlElementScraper} can scrap
      * @return true if this {@link HtmlElementScraper} can scrap the element's content; false otherwise.
      */
-    boolean canScrap(Element element);
+    boolean canScrape(Element element);
 
     /**
      * Scraps the html elements content and send to stdout
@@ -24,6 +24,6 @@ public interface HtmlElementScraper {
      * @param element The element to scrap
      * @throws IOException when an I/O issue occurs
      */
-    void scrap(Element element, CSVPrinter printer);
+    void scrape(Element element, CSVPrinter printer);
 
 }

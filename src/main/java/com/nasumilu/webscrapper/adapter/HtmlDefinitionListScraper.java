@@ -17,7 +17,7 @@ public class HtmlDefinitionListScraper extends AbstractHtmlElementScraper {
     }
 
     @Override
-    public void scrap(Element element, CSVPrinter printer) {
+    public void scrape(Element element, CSVPrinter printer) {
         var dt = element.getElementsByTag("dt");
         var dd = element.getElementsByTag("dd");
         var length = Math.min(dt.size(), dd.size());

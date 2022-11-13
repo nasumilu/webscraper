@@ -62,7 +62,7 @@ public class Launcher {
             showHelp();
         }
 
-        scrap(cli.getOptionValue("url"), cli.getOptionValue("selector"));
+        scrape(cli.getOptionValue("url"), cli.getOptionValue("selector"));
     }
 
     /**
@@ -73,14 +73,14 @@ public class Launcher {
      * @param selector
      * @throws IOException
      */
-    private static void scrap(String uri, String selector) throws IOException {
+    private static void scrape(String uri, String selector) throws IOException {
         var document = Jsoup.connect(uri).get();
         var element = document.selectXpath(selector).first();
         var printer = new CSVPrinter(System.out, CSVFormat.DEFAULT);
         if (null != element) {
             for (var scraper : SCRAPERS) {
-                if (scraper.canScrap(element)) {
-                    scraper.scrap(element, printer);
+                if (scraper.canScrape(element)) {
+                    scraper.scrape(element, printer);
                     return;
                 }
             }
@@ -90,7 +90,7 @@ public class Launcher {
 
     private static void showHelp() {
         var formatter = new HelpFormatter();
-        formatter.printHelp("scrap", OPTIONS, true);
+        formatter.printHelp("scrape", OPTIONS, true);
         System.exit(0);
     }
 

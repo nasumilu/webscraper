@@ -19,7 +19,7 @@ import com.nasumilu.webscrapper.HtmlElementScraper;
 import org.jsoup.nodes.Element;
 
 /**
- * Base class which implements the {@link HtmlElementScraper#canScrap(Element) HtmlElementScraper.canScrape()} method.
+ * Base class which implements the {@link HtmlElementScraper#canScrape(Element) HtmlElementScraper.canScrape()} method.
  */
 public abstract class AbstractHtmlElementScraper implements HtmlElementScraper  {
 
@@ -39,7 +39,7 @@ public abstract class AbstractHtmlElementScraper implements HtmlElementScraper  
     }
 
     @Override
-    public boolean canScrap(Element element) {
+    public boolean canScrape(Element element) {
         return element.tagName().toLowerCase().equals(this.tagName);
     }
 
