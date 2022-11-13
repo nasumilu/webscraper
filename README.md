@@ -1,3 +1,3 @@
 # webscraper
 
-Basic webscrper example for a class, nothing really ground breaking here.
+Basic webscraper example for a class, nothing really ground breaking here.
