@@ -73,7 +73,7 @@ public class Launcher {
      * @param selector
      * @throws IOException
      */
-    private static void scrape(String uri, String selector) throws IOException {
+    public static void scrape(String uri, String selector) throws IOException {
         var document = Jsoup.connect(uri).get();
         var element = document.selectXpath(selector).first();
         var printer = new CSVPrinter(System.out, CSVFormat.DEFAULT);

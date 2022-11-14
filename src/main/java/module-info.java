@@ -18,6 +18,7 @@ import com.nasumilu.webscrapper.HtmlElementScraper;
 import com.nasumilu.webscrapper.adapter.HtmlDefinitionListScraper;
 import com.nasumilu.webscrapper.adapter.HtmlListItemScraper;
 import com.nasumilu.webscrapper.adapter.HtmlTableScraper;
+import com.nasumilu.webscrapper.adapter.UFDirectoryScraper;
 
 module webscrapper {
     requires org.jsoup;
@@ -28,5 +29,5 @@ module webscrapper {
     exports com.nasumilu.webscrapper.adapter;
     uses HtmlElementScraper;
 
-    provides HtmlElementScraper with HtmlTableScraper, HtmlListItemScraper, HtmlDefinitionListScraper;
+    provides HtmlElementScraper with HtmlTableScraper, HtmlListItemScraper, HtmlDefinitionListScraper, UFDirectoryScraper;
 }
